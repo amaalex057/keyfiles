@@ -16,20 +16,19 @@ key_urls=$(curl -s "$GIT_REPO_URL" | jq -r '.[] | select(.name | endswith(".pub"
 # Iterate through the list of key URLs
 for key_url in $key_urls; do
     key_name=$(basename "$key_url")
+    key_path="$ssh_dir/$key_name"
 
-    # Check if the key already exists in the authorized_keys file
-    if grep -q "$(curl -s "$key_url")" "$authorized_keys_file"; then
-        echo "Key $key_name already exists in $authorized_keys_file. Skipping."
+    # Check if the key file already exists
+    if [ -f "$key_path" ]; then
+        echo "Key file $key_name already exists in $ssh_dir. Skipping."
     else
-        echo "Adding key $key_name to $authorized_keys_file."
-        # Download the key and append it to authorized_keys
-        curl -s "$key_url" >> "$authorized_keys_file"
+        echo "Downloading key $key_name to $key_path."
+        # Download the key and save it to the SSH directory
+        curl -s "$key_url" -o "$key_path"
+        chmod 600 "$key_path"
     fi
 
 done
 
-# Ensure proper permissions on the authorized_keys file
-chmod 600 "$authorized_keys_file"
-
 # Notify user of completion
-echo "All keys have been processed."
+echo "All keys have been downloaded to $ssh_dir."
