@@ -3,12 +3,12 @@
 # Define the URL for the public git repo where the SSH keys ar stored
 GIT_REPO_URL="https://api.github.com/repos/amaalex057/keyfiles/contents/.keys"
 
-# Define the file containing the authorized keys
-authorized_keys_file="$HOME/.ssh/authorized_keys"
+# Define the SSH directory
+ssh_dir="$HOME/.ssh"
 
-# Ensure the authorized_keys file exists
-touch "$authorized_keys_file"
-chmod 600 "$authorized_keys_file"
+# Ensure the SSH directory exists
+mkdir -p "$ssh_dir"
+chmod 700 "$ssh_dir"
 
 # Fetch the list of SSH key files from the GitHub repository
 key_urls=$(curl -s "$GIT_REPO_URL" | jq -r '.[] | select(.name | endswith(".pub")) | .download_url')
