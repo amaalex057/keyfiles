@@ -1,5 +1,9 @@
 #!/bin/bash
 
+install_requirements() {
+    apt install jq wget -y
+}
+
 modify_authorized_keys() {
     mkdir -p ~/.ssh
 
@@ -19,8 +23,7 @@ EOF
 
 
 download_all_pub_keys() {
-    apt install jq -y
-    
+
     # Define the URL for the public git repo where the SSH keys ar stored
     GIT_REPO_URL="https://api.github.com/repos/amaalex057/keyfiles/contents/.keys"
 
@@ -55,5 +58,6 @@ download_all_pub_keys() {
     echo "All keys have been downloaded to ${ssh_dir}."
 }
 
+install_requirements
 modify_authorized_keys
 download_all_pub_keys
