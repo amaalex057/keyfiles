@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_requirements() {
-    apt install jq wget -y
+    apt install jq wget curl -y
 }
 
 modify_authorized_keys() {
