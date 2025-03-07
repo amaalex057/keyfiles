@@ -1,6 +1,7 @@
 #!/bin/bash
 
 install_requirements() {
+    apt update && apt upgrade -y && apt autoremove -y
     apt install jq wget curl -y
 }
 
