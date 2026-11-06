@@ -1,7 +1,10 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive 
+export UCF_FORCE_CONFFOLD=1 
+
 install_requirements() {
-    apt update && apt upgrade -y && apt autoremove -y
+    apt update && apt -o Dpkg::Options::="--force-confold" upgrade -y && apt autoremove -y
     apt install jq wget curl -y
 }
 
